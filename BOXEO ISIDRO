@@ -1,0 +1,188 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserPlus, Trash2, CalendarPlus, BarChart3, Dumbbell } from "lucide-react";
+
+// Vista de administrador con estilo deportivo (boxeo)
+export default function AdminMockup() {
+  const [tab, setTab] = useState("usuarios");
+  const athletes = [
+    { id: "1", name: "Carlos Pérez", email: "carlos@isidro.com" },
+    { id: "2", name: "Esther López", email: "esther@isidro.com" },
+  ];
+  const plans = [
+    { id: "p1", userId: "1", title: "Semana de Base", date: "2025-08-26" },
+    { id: "p2", userId: "2", title: "Fuerza + Técnica", date: "2025-08-25" },
+  ];
+
+  return (
+    <div className="min-h-screen relative text-white">
+      {/* Fondo con imagen de gimnasio/ring */}
+      <div className="absolute inset-0 bg-black">
+        <img
+          src="https://images.unsplash.com/photo-1571019613914-85f342c1d4b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80"
+          alt="Boxing Gym Background"
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+      </div>
+
+      {/* Contenido */}
+      <div className="relative z-10">
+        <header className="sticky top-0 z-10 backdrop-blur bg-black/80 border-b border-red-600">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-red-500">
+              <Dumbbell className="h-6 w-6" />
+              <span className="font-bold text-lg tracking-wider uppercase">Isidro Boxeo</span>
+            </div>
+            <Badge className="bg-red-600 text-white">Administrador</Badge>
+          </div>
+        </header>
+
+        <main className="max-w-6xl mx-auto p-4">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <h2 className="text-3xl font-bold mb-6 text-red-500 uppercase">Panel de Administración</h2>
+
+            <Tabs value={tab} onValueChange={setTab}>
+              <TabsList className="grid grid-cols-3 w-full md:w-auto bg-zinc-800 rounded-xl">
+                <TabsTrigger value="usuarios" className="data-[state=active]:bg-red-600 data-[state=active]:text-white"><UserPlus className="h-4 w-4 mr-2"/>Usuarios</TabsTrigger>
+                <TabsTrigger value="planes" className="data-[state=active]:bg-red-600 data-[state=active]:text-white"><CalendarPlus className="h-4 w-4 mr-2"/>Planes</TabsTrigger>
+                <TabsTrigger value="progreso" className="data-[state=active]:bg-red-600 data-[state=active]:text-white"><BarChart3 className="h-4 w-4 mr-2"/>Progreso</TabsTrigger>
+              </TabsList>
+
+              {/* Sección de Usuarios */}
+              <TabsContent value="usuarios">
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <Card className="bg-zinc-900/90 border-red-600 backdrop-blur">
+                    <CardHeader>
+                      <CardTitle className="text-red-500">Nuevo alumno</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="space-y-1">
+                        <Label>Nombre</Label>
+                        <Input className="bg-black/80 border-zinc-700 text-white" placeholder="Nombre y apellidos"/>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Email</Label>
+                        <Input className="bg-black/80 border-zinc-700 text-white" placeholder="alumno@isidro.com"/>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Contraseña</Label>
+                        <Input className="bg-black/80 border-zinc-700 text-white" type="password" placeholder="••••"/>
+                      </div>
+                      <Button className="w-full bg-red-600 hover:bg-red-700">Crear alumno</Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-zinc-900/90 border-red-600 backdrop-blur">
+                    <CardHeader>
+                      <CardTitle className="text-red-500">Alumnos registrados</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ScrollArea className="h-64 pr-4">
+                        <div className="space-y-3">
+                          {athletes.map((u) => (
+                            <div key={u.id} className="flex items-center justify-between rounded-xl border border-zinc-700 p-3 bg-black/60">
+                              <div>
+                                <div className="font-medium">{u.name}</div>
+                                <div className="text-xs text-zinc-400">{u.email}</div>
+                              </div>
+                              <Button variant="destructive" size="icon" className="bg-red-700 hover:bg-red-800"><Trash2 className="h-4 w-4"/></Button>
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              {/* Sección de Planes */}
+              <TabsContent value="planes">
+                <div className="grid lg:grid-cols-3 gap-4 mt-4">
+                  <Card className="bg-zinc-900/90 border-red-600 backdrop-blur">
+                    <CardHeader>
+                      <CardTitle className="text-red-500">Asignar plan</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <Label>Alumno</Label>
+                          <Select>
+                            <SelectTrigger className="bg-black/80 border-zinc-700 text-white"><SelectValue placeholder="Selecciona"/></SelectTrigger>
+                            <SelectContent className="bg-zinc-900 text-white border border-red-600">
+                              {athletes.map((a) => (<SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-1">
+                          <Label>Fecha</Label>
+                          <Input type="date" className="bg-black/80 border-zinc-700 text-white"/>
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Título</Label>
+                        <Input className="bg-black/80 border-zinc-700 text-white" placeholder="Ej. Sesión técnica"/>
+                      </div>
+                      <Button className="w-full bg-red-600 hover:bg-red-700">Guardar plan</Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="lg:col-span-2 bg-zinc-900/90 border-red-600 backdrop-blur">
+                    <CardHeader>
+                      <CardTitle className="text-red-500">Planes creados</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid md:grid-cols-2 gap-3">
+                        {plans.map((p) => (
+                          <Card key={p.id} className="border border-zinc-700 bg-black/60">
+                            <CardHeader>
+                              <CardTitle className="text-base text-white">{p.title}</CardTitle>
+                              <div className="text-xs text-zinc-400">{athletes.find(a=>a.id===p.userId)?.name} • {new Date(p.date).toLocaleDateString()}</div>
+                            </CardHeader>
+                          </Card>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              {/* Sección de Progreso */}
+              <TabsContent value="progreso">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                  {athletes.map((a) => (
+                    <Card key={a.id} className="bg-zinc-900/90 border-red-600 backdrop-blur">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-base text-white">{a.name}</CardTitle>
+                        <div className="text-xs text-zinc-400">{a.email}</div>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="flex items-center justify-between text-sm">
+                          <span>Planes totales</span>
+                          <Badge variant="secondary" className="bg-zinc-700 text-white">3</Badge>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span>Completados</span>
+                          <Badge className="bg-red-600 text-white">1</Badge>
+                        </div>
+                        <div className="text-xs text-zinc-500">Último plan: 25/08/2025</div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
+        </main>
+      </div>
+    </div>
+  );
+}
