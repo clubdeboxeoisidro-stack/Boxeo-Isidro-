@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: url('https://i.ibb.co/5WB7xS5/boxing-ring-dark.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+.card {
+  background: rgba(0,0,0,0.7);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px;
+}
+button {
+  background: #e50914;
+  border: none;
+  padding: 10px 16px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:disabled {
+  background: grey;
+  cursor: not-allowed;
+}
+input {
+  margin: 4px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+}
